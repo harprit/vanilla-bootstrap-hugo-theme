@@ -1,0 +1,25 @@
+{{ define "main" }}
+
+<h1>{{ .Title }}</h1>
+
+{{ if eq .Kind "taxonomy" }}
+  {{/* Taxonomy index, e.g. /tags/ */}}
+  {{ range .Data.Terms.Alphabetical }}
+    <p>
+      <a class="btn btn-outline-dark font-125" href="{{ .Page.RelPermalink }}">
+        <span class="badge badge-dark">{{ .Count }}</span> {{ .Page.Title }}
+      </a>
+    </p>
+  {{ end }}
+{{ else }}
+  {{/* Single term, e.g. /tags/aws-lambda/ */}}
+  {{ range .Pages.ByPublishDate.Reverse }}
+  <p>
+    <a class="font-125" href="{{ .Permalink }}">{{ .Title }}</a>
+    <br>
+    {{ partial "date-and-tags.html" . }}
+  </p>
+  {{ end }}
+{{ end }}
+
+{{ end }}
